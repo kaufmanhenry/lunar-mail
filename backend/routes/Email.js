@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const co = require('co');
 const Email = require('../models/Email');
 
 const handleRequest = require('../config/responseHandler');
@@ -29,5 +30,26 @@ router.put('/:email',
 router.delete('/:location',
   authMiddleware,
   (req, res) => Email.remove({ _id: req.params.location }, handleRequest(res)));
+
+router.post('/send/:identifier',
+  authMiddleware,
+  (req, res) =>
+    co(function* sendEmail() {
+      if (!req.params.identifier) {
+        return handleRequest(res)({
+          message: 'An identifier is required in order to send an email',
+          status: 422
+        });
+      }
+
+      // Find the email with the correct identifier
+      let email;
+      try {
+        email = yield Email.findOne({ identifier: req.params.identifier });
+      } catch (e) {
+        return handleRequest(res)(e);
+      }
+    })
+);
 
 module.exports = router;
