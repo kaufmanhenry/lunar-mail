@@ -13,8 +13,12 @@
     "clean": "rimraf dist/*"
   },
   "dependencies": {
+    "bcrypt": "^1.0.2",
+    "co": "^4.6.0",
     "dotenv": "^4.0.0",
     "express": "^4.15.3",
+    "jsonwebtoken": "^7.4.3",
+    "mongoose": "^4.11.7",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
