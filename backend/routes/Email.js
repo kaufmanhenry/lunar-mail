@@ -34,10 +34,24 @@ router.delete('/:location',
 router.post('/send/:identifier',
   authMiddleware,
   (req, res) =>
-    co(function* sendEmail() {
+    co(function* sendEmailRoute() {
       if (!req.params.identifier) {
         return handleRequest(res)({
           message: 'An identifier is required in order to send an email',
+          status: 422
+        });
+      }
+
+      if (!req.body.to) {
+        return handleRequest(res)({
+          message: 'A user to send the email to is required in order to send an email',
+          status: 422
+        });
+      }
+
+      if (!req.body.meta) {
+        return handleRequest(res)({
+          message: 'Meta data is required in order to send an email.',
           status: 422
         });
       }
@@ -51,5 +65,10 @@ router.post('/send/:identifier',
       }
     })
 );
+
+const sendEmail = (to, meta, email) =>
+  co(function* send() {
+    const renderedBody = yield email.renderBody(meta);
+  });
 
 module.exports = router;
