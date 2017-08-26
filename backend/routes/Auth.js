@@ -71,3 +71,5 @@ router.post('/', (req, res) =>
     // Respond the the generated token
     return responseHandler(res)(encodedUser);
   }));
+
+module.exports = router;
