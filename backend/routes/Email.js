@@ -33,14 +33,14 @@ router.put('/:email',
   authMiddleware,
   (req, res) =>
     Email.findOneAndUpdate(
-      { _id: req.params.location },
+      { _id: req.params.email },
       req.body,
       handleRequest(res)
     ));
 
-router.delete('/:location',
+router.delete('/:email',
   authMiddleware,
-  (req, res) => Email.remove({ _id: req.params.location }, handleRequest(res)));
+  (req, res) => Email.remove({ _id: req.params.email }, handleRequest(res)));
 
 router.post('/send/:identifier',
   authMiddleware,
