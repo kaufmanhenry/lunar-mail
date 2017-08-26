@@ -19,6 +19,7 @@
     "express": "^4.15.3",
     "jsonwebtoken": "^7.4.3",
     "mongoose": "^4.11.7",
+    "nodemailer": "^4.0.1",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",

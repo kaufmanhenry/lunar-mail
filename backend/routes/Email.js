@@ -2,9 +2,20 @@ const { Router } = require('express');
 const co = require('co');
 const Email = require('../models/Email');
 
+const mailerConfig = require('../config/mailer');
+
 const handleRequest = require('../config/responseHandler');
 
 const { authMiddleware } = require('../config/auth');
+
+const sendEmail = (to, meta, email) =>
+  new Promise((resolve, reject) => {
+    const renderedBody = `
+      <p>${email.body}</p>
+    `;
+
+    return mailerConfig(to, email.subject, renderedBody).then(resolve, reject);
+  });
 
 const router = Router();
 
@@ -63,12 +74,16 @@ router.post('/send/:identifier',
       } catch (e) {
         return handleRequest(res)(e);
       }
+
+      let sentEmail;
+      try {
+        sentEmail = yield sendEmail(req.body.to, req.body.meta, email);
+      } catch (e) {
+        return handleRequest(res)(e);
+      }
+
+      return res.send(sentEmail);
     })
 );
-
-const sendEmail = (to, meta, email) =>
-  co(function* send() {
-    const renderedBody = yield email.renderBody(meta);
-  });
 
 module.exports = router;
