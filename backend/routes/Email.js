@@ -10,9 +10,8 @@ const { authMiddleware } = require('../config/auth');
 
 const sendEmail = (to, meta, email) =>
   new Promise((resolve, reject) => {
-    const renderedBody = `
-      <p>${email.body}</p>
-    `;
+    // eslint-disable-next-line
+    const renderedBody = `<p>${eval('`' + email.body + '`')}</p>`;
 
     return mailerConfig(to, email.subject, renderedBody).then(resolve, reject);
   });
