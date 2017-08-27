@@ -22,7 +22,8 @@ export const LOGOUT = 'user/LOGOUT';
 const defaultState = {
   loading: false,
   loaded: false,
-  user: {}
+  user: {},
+  token: ''
 };
 
 export default function (state = defaultState, action) {
@@ -40,7 +41,8 @@ export default function (state = defaultState, action) {
         ...state,
         loading: false,
         loaded: true,
-        user: response
+        user: response.user,
+        token: response.token
       };
     case SIGNUP_SUCCESS:
       return {
@@ -62,9 +64,11 @@ export default function (state = defaultState, action) {
         user: {}
       };
     case VALIDATE_TOKEN_SUCCESS:
+      console.log(state, response);
       return {
         ...state,
-        user: response
+        user: response.user,
+        token: response.token
       };
     default:
       return state;
