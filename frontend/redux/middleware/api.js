@@ -1,16 +1,14 @@
 export default function apiMiddleware() {
   return next => (action) => {
     const {
-      type,
+      types,
       promise,
       ...rest
     } = action;
 
     if (!promise) return next(action);
 
-    const REQUEST = `${type}_REQUEST`;
-    const SUCCESS = `${type}_SUCCESS`;
-    const FAILURE = `${type}_FAILURE`;
+    const [REQUEST, SUCCESS, FAILURE] = types;
 
     next({
       ...rest,
