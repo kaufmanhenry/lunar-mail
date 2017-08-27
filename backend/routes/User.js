@@ -1,18 +1,27 @@
+const co = require('co');
 const { Router } = require('express');
 const User = require('../models/User');
 
 const handleRequest = require('../config/responseHandler');
 
-const { authMiddleware } = require('../config/auth');
+const { authMiddleware, hashPassword } = require('../config/auth');
+
+const userPostMiddleware = user =>
+  co(function* middleware() {
+    if (user.password) user.passwordHash = yield hashPassword(user.password);
+
+    return user;
+  });
 
 const router = Router();
 
 router.get('/:user', authMiddleware, (req, res) => User.find({ _id: req.params.user }, handleRequest(res)));
 
 router.post('/', (req, res) => {
-  const loc = new User(req.body);
+  const user = userPostMiddleware(req.body);
+  const saveUser = new User(user);
 
-  return loc.save(handleRequest(res));
+  return saveUser.save(handleRequest(res));
 });
 
 router.put('/:user', authMiddleware, (req, res) =>
