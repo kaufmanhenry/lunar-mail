@@ -4,7 +4,7 @@ const co = require('co');
 const responseHandler = require('../config/responseHandler');
 
 const User = require('../models/User');
-const { comparePassword, encodeUser } = require('../config/auth');
+const { comparePassword, encodeUser, decodeToken } = require('../config/auth');
 
 const router = Router();
 
@@ -61,16 +61,59 @@ router.post('/', (req, res) =>
     }
 
     // Encode the user into a token
-    let encodedUser;
+    let token;
     try {
-      encodedUser = yield encodeUser(user);
+      token = yield encodeUser(user);
     } catch (e) {
       return responseHandler(res)(e);
     }
 
     // Respond the the generated token
     return responseHandler(res)(null, {
-      token: encodedUser
+      token,
+      user
+    });
+  }));
+
+router.post('/validate', (req, res) =>
+  co(function* auth() {
+    // A token is required in order to validate
+    if (!req.body.token) {
+      return responseHandler(res)({
+        message: 'A token is required in order to validate',
+        status: 422,
+        token: req.body.token
+      });
+    }
+
+    // Decode the token
+    let decodedToken;
+    try {
+      decodedToken = yield decodeToken(req.body.token);
+    } catch (e) {
+      return responseHandler(res)(e);
+    }
+
+    // Find a user
+    let user;
+    try {
+      user = yield User.findOne({ _id: decodedToken._id }); // eslint-disable-line
+    } catch (e) {
+      return responseHandler(res)(e);
+    }
+
+    // If the user doesn't exist, return
+    if (!user) {
+      return responseHandler(res)({
+        message: 'No user found for the supplied email',
+        status: 422
+      });
+    }
+
+    // Return with the token and the user
+    return responseHandler(res)(null, {
+      token: req.body.token,
+      user
     });
   }));
 

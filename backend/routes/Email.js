@@ -23,7 +23,13 @@ router.get('/:email',
   (req, res) => Email.find({ _id: req.params.email }, handleRequest(res)));
 
 router.post('/', authMiddleware, (req, res) => {
-  const email = new Email(req.body);
+  const emailToSave = {
+    name: req.body.name,
+    subject: req.body.subject,
+    body: req.body.body,
+    owner: req.body.user.user._id // eslint-disable-line
+  };
+  const email = new Email(emailToSave);
 
   return email.save(handleRequest(res));
 });

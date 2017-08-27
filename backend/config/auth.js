@@ -14,7 +14,7 @@ const decodeToken = token =>
     }
     return jwt.verify(token, SECRET, (err, decoded) => {
       if (err) return reject(err);
-      if (decoded.user) return resolve(decoded.user);
+      if (decoded._doc) return resolve(decoded._doc); // eslint-disable-line
       return reject({
         message: 'No user found in the token'
       });

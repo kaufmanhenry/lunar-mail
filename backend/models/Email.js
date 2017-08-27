@@ -1,4 +1,7 @@
 const Mongo = require('./index');
+const mongoose = require('mongoose');
+
+const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const EmailModel = Mongo.model('Email', {
   name: {
@@ -15,6 +18,11 @@ const EmailModel = Mongo.model('Email', {
   },
   subject: {
     type: String,
+    required: true
+  },
+  owner: {
+    type: ObjectId,
+    ref: 'User',
     required: true
   }
 });

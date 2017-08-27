@@ -10,6 +10,7 @@ export default styled.textarea`
   border: solid 1px ${colors.lightGray};
   border-radius: 4px;
   width: calc(100% - 34px);
+  resize: none;
   &:focus {
     border-color: ${colors.blue};
     outline: none;

@@ -1,5 +1,5 @@
 import createApiRequest from '../../utils/createApiRequest';
-import { setTokenAndRedirect } from '../../utils/handleRouteAuth';
+import { setTokenAndRedirect, TOKEN_NAME } from '../../utils/handleRouteAuth';
 
 export const FETCH_USERS = 'user/FETCH_USERS';
 export const FETCH_USERS_REQUEST = 'user/FETCH_USERS_REQUEST';
@@ -12,6 +12,10 @@ export const LOGIN_FAILURE = 'user/LOGIN_FAILURE';
 export const SIGNUP_REQUEST = 'user/SIGNUP_REQUEST';
 export const SIGNUP_SUCCESS = 'user/SIGNUP_SUCCESS';
 export const SIGNUP_FAILURE = 'user/SIGNUP_FAILURE';
+
+export const VALIDATE_TOKEN_REQUEST = 'user/VALIDATE_TOKEN_REQUEST';
+export const VALIDATE_TOKEN_SUCCESS = 'user/VALIDATE_TOKEN_SUCCESS';
+export const VALIDATE_TOKEN_FAILURE = 'user/VALIDATE_TOKEN_FAILURE';
 
 export const LOGOUT = 'user/LOGOUT';
 
@@ -56,6 +60,11 @@ export default function (state = defaultState, action) {
       return {
         ...state,
         user: {}
+      };
+    case VALIDATE_TOKEN_SUCCESS:
+      return {
+        ...state,
+        user: response
       };
     default:
       return state;
@@ -106,5 +115,12 @@ export function logoutFlow() {
   return (dispatch) => {
     dispatch(logoutRequest);
     return setTokenAndRedirect(null);
+  };
+}
+
+export function validateToken() {
+  return {
+    types: [VALIDATE_TOKEN_REQUEST, VALIDATE_TOKEN_SUCCESS, VALIDATE_TOKEN_FAILURE],
+    promise: createApiRequest('auth/validate', 'POST', { token: localStorage.getItem(TOKEN_NAME) })
   };
 }

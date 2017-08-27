@@ -1,4 +1,5 @@
 import { createStore, applyMiddleware, compose } from 'redux';
+import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 import apiMiddleware from './middleware/api';
 
@@ -9,6 +10,6 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export default function configureStore() {
   return createStore(
     rootReducer,
-    composeEnhancers(applyMiddleware(thunk, apiMiddleware))
+    composeEnhancers(applyMiddleware(logger, thunk, apiMiddleware))
   );
 }
