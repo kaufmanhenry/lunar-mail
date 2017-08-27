@@ -26,7 +26,7 @@ export default class NewEmail extends Component {
               <Label>Email Body</Label>
               <TextArea />
             </Box>
-            <Button>Save</Button>
+            <Button floatRight>Save</Button>
           </Box>
           <Box w={[1, 1 / 2]} mx={2}>
             <Card bordered>
