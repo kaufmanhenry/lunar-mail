@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router';
+import { Router, hashHistory, Route } from 'react-router';
 
 import App from './containers/App';
 import Emails from './containers/Emails';
@@ -23,7 +23,7 @@ const checkAuth = (nextState, replace, callback) => {
 };
 
 const routes = (
-  <div>
+  <Router history={hashHistory}>
     <Route path="/" onEnter={checkAuth} component={App}>
       <Route path="emails" component={Emails} />
       <Route path="emails/:id" component={Email} />
@@ -31,7 +31,7 @@ const routes = (
     </Route>
     <Route path="/login" component={Login} onEnter={checkAuth} />
     <Route path="/signup" component={SignUp} onEnter={checkAuth} />
-  </div>
+  </Router>
 );
 
 export default routes;
