@@ -14,6 +14,7 @@ const store = configureStore();
 const RootStyles = styled.div`
   font-family: heebo, sans-serif;
   background-color: ${colors.snow};
+  color: ${colors.black};
   height: 100%;
   width: 100%;
   -webkit-font-smoothing: antialiased;

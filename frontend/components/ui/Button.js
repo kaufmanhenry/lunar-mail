@@ -8,4 +8,5 @@ export default styled.button`
   font-size: ${fontSizes[4]}px;
   border: solid 1px ${props => props.primary ? colors.blue : colors.lightGray};
   border-radius: 4px;
+  width: ${props => props.block ? '100%' : 'auto'}
 `;
