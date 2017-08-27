@@ -19,6 +19,9 @@ const RootStyles = styled.div`
   width: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  p {
+    line-height: 1.6rem;
+  }
 `;
 
 render((
