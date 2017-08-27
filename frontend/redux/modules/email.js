@@ -50,7 +50,6 @@ export function saveEmailRequest(name, subject, body, user) {
 export function saveEmailFlow({ name, subject, body }) {
   return (dispatch, getState) => {
     const { user } = getState();
-    console.log(user);
-    return dispatch(saveEmailRequest(name, subject, body, user.user));
+    return dispatch(saveEmailRequest(name, subject, body, user.user.user));
   };
 }

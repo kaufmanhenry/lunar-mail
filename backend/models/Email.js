@@ -8,10 +8,6 @@ const EmailModel = Mongo.model('Email', {
     type: String,
     required: true
   },
-  identifier: {
-    type: String,
-    required: true
-  },
   body: {
     type: String,
     required: true

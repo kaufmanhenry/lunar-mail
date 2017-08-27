@@ -68,7 +68,7 @@ const encodeUser = user =>
 
 // Middleware to validate a token
 const authMiddleware = (req, res, next) => {
-  const token = req.headers.lunarMailToken;
+  const token = req.headers.lunarmailtoken;
 
   if (token) {
     decodeToken(token)
