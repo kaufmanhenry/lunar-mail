@@ -7,12 +7,12 @@ import Card from '../components/ui/Card';
 import Input from '../components/ui/Input';
 import Button from '../components/ui/Button';
 
-import { loginRequest } from '../redux/modules/user';
+import { loginFlow } from '../redux/modules/user';
 
-@connect(({ user }) => ({ user }), { loginRequest })
+@connect(({ user }) => ({ user }), { loginFlow })
 export default class Login extends Component {
   static propTypes = {
-    loginRequest: PropTypes.func.isRequired
+    loginFlow: PropTypes.func.isRequired
   }
   constructor(props) {
     super(props);
@@ -22,7 +22,7 @@ export default class Login extends Component {
 
   loginSubmit(e) {
     e.preventDefault();
-    this.props.loginRequest({
+    this.props.loginFlow({
       email: e.target.email.value,
       password: e.target.password.value
     });

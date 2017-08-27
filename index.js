@@ -6,6 +6,7 @@ const webpack = require('webpack');
 const config = require('./webpack.dev.config.js');
 const webpackDevMiddleware = require('webpack-dev-middleware'); // eslint-disable-line
 const webpackHotMiddleware = require('webpack-hot-middleware'); // eslint-disable-line
+const bodyParser = require('body-parser');
 
 const app = express();
 const DIST_DIR = path.join(__dirname, 'dist');
@@ -13,6 +14,9 @@ const HTML_FILE = path.join(DIST_DIR, 'index.html');
 const isDevelopment = process.env.NODE_ENV !== 'production';
 const DEFAULT_PORT = 3000;
 const compiler = webpack(config);
+
+// body-parser config
+app.use(bodyParser.json());
 
 require('dotenv').config({ path: '.env' });
 

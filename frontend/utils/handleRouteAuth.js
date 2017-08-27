@@ -1,4 +1,12 @@
+import { hashHistory } from 'react-router';
+
 export const TOKEN_NAME = 'lunar-mail-token';
+
+export function setTokenAndRedirect(data) {
+  localStorage.setItem(TOKEN_NAME, data.response.token);
+
+  hashHistory.push('/');
+}
 
 export default function checkAuth(nextState, replace, callback) {
   // An authentication token

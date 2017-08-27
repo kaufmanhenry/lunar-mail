@@ -17,9 +17,7 @@ export default function createApiRequest(url, method, data, headers) {
         ...headers
       }
     })
-    .then(response => response.json())
-    .then(json => handleApiErrors(json))
-    .then(json => resolve(json))
-    .catch(err => reject(err));
+    .then(response => resolve(response.json()))
+    .catch(err => reject(handleApiErrors(err)));
   });
 }

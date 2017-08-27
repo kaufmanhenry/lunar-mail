@@ -17,12 +17,13 @@ const router = Router();
 
 router.get('/:user', authMiddleware, (req, res) => User.find({ _id: req.params.user }, handleRequest(res)));
 
-router.post('/', (req, res) => {
-  const user = userPostMiddleware(req.body);
-  const saveUser = new User(user);
-
-  return saveUser.save(handleRequest(res));
-});
+router.post('/', (req, res) =>
+  userPostMiddleware(req.body)
+  .then((user) => {
+    const saveUser = new User(user);
+    return saveUser.save(handleRequest(res));
+  }, err => handleRequest(res)(err))
+);
 
 router.put('/:user', authMiddleware, (req, res) =>
   User.findOneAndUpdate(
