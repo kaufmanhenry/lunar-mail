@@ -52,6 +52,11 @@ export default function (state = defaultState, action) {
         loaded: false,
         error: response
       };
+    case LOGOUT:
+      return {
+        ...state,
+        user: {}
+      };
     default:
       return state;
   }
@@ -94,5 +99,12 @@ export function loginFlow({ email, password }) {
 export function logoutRequest() {
   return {
     type: LOGOUT
+  };
+}
+
+export function logoutFlow() {
+  return (dispatch) => {
+    dispatch(logoutRequest);
+    return setTokenAndRedirect(null);
   };
 }

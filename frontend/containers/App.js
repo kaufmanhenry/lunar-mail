@@ -3,24 +3,25 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Box } from 'reflexbox';
 
-import { logoutRequest } from '../redux/modules/user';
+import { logoutFlow } from '../redux/modules/user';
 
 import Navbar from '../components/Navbar';
 
 import Container from '../components/ui/Container';
 
-@connect(({ user }) => ({ user }), { logoutRequest })
+@connect(({ user }) => ({ user }), { logoutFlow })
 export default class App extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
-    logoutRequest: PropTypes.func.isRequired,
+    logoutFlow: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired
   }
 
   render() {
+    const { user } = this.props;
     return (
       <div>
-        <Navbar logoutRequest={this.props.logoutRequest} user={this.props.user} />
+        {user.user && <Navbar logoutFlow={this.props.logoutFlow} />}
         <Box py={3}>
           <Container>{this.props.children}</Container>
         </Box>

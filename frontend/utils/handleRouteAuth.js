@@ -3,9 +3,13 @@ import { hashHistory } from 'react-router';
 export const TOKEN_NAME = 'lunar-mail-token';
 
 export function setTokenAndRedirect(data) {
-  localStorage.setItem(TOKEN_NAME, data.response.token);
-
-  hashHistory.push('/');
+  if (data && data.response && data.response.token) {
+    localStorage.setItem(TOKEN_NAME, data.response.token);
+    hashHistory.push('/');
+  } else {
+    localStorage.removeItem(TOKEN_NAME);
+    hashHistory.push('/login');
+  }
 }
 
 export default function checkAuth(nextState, replace, callback) {
