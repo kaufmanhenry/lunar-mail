@@ -3,6 +3,8 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import styled from 'styled-components';
 
+import { colors } from './components/ui/Variables';
+
 import routes from './routes';
 
 import configureStore from './redux/configureStore';
@@ -11,6 +13,7 @@ const store = configureStore();
 
 const RootStyles = styled.div`
   font-family: heebo, sans-serif;
+  background-color: ${colors.snow};
   height: 100%;
   width: 100%;
   -webkit-font-smoothing: antialiased;

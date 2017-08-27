@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+import Card from '../components/ui/Card';
+import Input from '../components/ui/Input';
+
 export default class Login extends Component {
   constructor(props) {
     super(props);
@@ -7,7 +10,11 @@ export default class Login extends Component {
 
   render() {
     return (
-      <div>Login</div>
+      <Card>
+        <h1>Login</h1>
+        <Input placeholder="Email" />
+        <Input placeholder="Password" type="password" />
+      </Card>
     );
   }
 }
