@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import { Flex, Box } from 'reflexbox';
 
-import Card from '../components/ui/Card';
-import Button from '../components/ui/Button';
-import Input from '../components/ui/Input';
-import TextArea from '../components/ui/TextArea';
-import Label from '../components/ui/Label';
+import { Card, Button, Input, TextArea, Label } from '../components/ui';
 
 export default class NewEmail extends Component {
   constructor(props) {

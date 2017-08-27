@@ -7,7 +7,7 @@ import { logoutFlow } from '../redux/modules/user';
 
 import Navbar from '../components/Navbar';
 
-import Container from '../components/ui/Container';
+import { Container } from '../components/ui';
 
 @connect(({ user }) => ({ user }), { logoutFlow })
 export default class App extends Component {

@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Flex, Box } from 'reflexbox';
 
-import Card from '../components/ui/Card';
-import Input from '../components/ui/Input';
-import Button from '../components/ui/Button';
+import { Card, Input, Button } from '../components/ui';
 
 import { loginFlow } from '../redux/modules/user';
 
