@@ -64,9 +64,10 @@ export default function (state = defaultState, action) {
         user: {}
       };
     case VALIDATE_TOKEN_SUCCESS:
-      console.log(state, response);
       return {
         ...state,
+        loading: false,
+        loaded: true,
         user: response.user,
         token: response.token
       };

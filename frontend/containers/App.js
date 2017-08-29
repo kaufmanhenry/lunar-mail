@@ -15,7 +15,15 @@ export default class App extends Component {
     children: PropTypes.node.isRequired,
     logoutFlow: PropTypes.func.isRequired,
     validateToken: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired
+    user: PropTypes.shape({
+      _id: PropTypes.string
+    }).isRequired
+  }
+
+  static defaultProps = {
+    user: {
+      _id: null
+    }
   }
 
   componentWillMount() {
@@ -26,10 +34,14 @@ export default class App extends Component {
     const { user } = this.props;
     return (
       <div>
-        {user.user && <Navbar logoutFlow={this.props.logoutFlow} />}
-        <Box py={3}>
-          <Container>{this.props.children}</Container>
-        </Box>
+        {user.user._id && // eslint-disable-line
+          <div>
+            <Navbar logoutFlow={this.props.logoutFlow} />
+            <Box py={3}>
+              <Container>{this.props.children}</Container>
+            </Box>
+          </div>
+        }
       </div>
     );
   }

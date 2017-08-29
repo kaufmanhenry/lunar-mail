@@ -60,7 +60,7 @@ export function saveEmailRequest(name, subject, body, user) {
 export function saveEmailFlow({ name, subject, body }) {
   return (dispatch, getState) => {
     const { user } = getState();
-    return dispatch(saveEmailRequest(name, subject, body, user.user.user));
+    return dispatch(saveEmailRequest(name, subject, body, user.user));
   };
 }
 
@@ -74,8 +74,6 @@ export function fetchEmailsRequest(userId) {
 export function fetchEmailsFlow() {
   return (dispatch, getState) => {
     const { user } = getState();
-
-    if (!user.user._id) return Promise.resolve(); // eslint-disable-line
 
     return dispatch(fetchEmailsRequest(user.user._id)); // eslint-disable-line
   };

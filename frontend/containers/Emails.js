@@ -20,7 +20,7 @@ export default class Emails extends Component {
       <div>
         <h1>Emails</h1>
         {email && email.loading && <p>emails loading...</p>}
-        {email && email.emails && email.emails.map(e => <p>{e.name}</p>)}
+        {email && email.emails && email.emails.map(e => <p key={e._id}>{e.name}</p>)}
       </div>
     );
   }
