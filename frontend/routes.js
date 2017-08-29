@@ -18,7 +18,7 @@ const routes = (
       <Route path="emails/:id" component={Email} />
       <Route path="newEmail" component={NewEmail} />
       <Route path="settings" component={Settings} />
-      </Route>
+    </Route>
     <Route path="/login" component={Login} onEnter={checkAuth} />
     <Route path="/signup" component={SignUp} onEnter={checkAuth} />
   </Router>
