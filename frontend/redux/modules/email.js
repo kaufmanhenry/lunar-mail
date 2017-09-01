@@ -8,6 +8,10 @@ export const FETCH_EMAILS_REQUEST = 'email/FETCH_EMAILS_REQUEST';
 export const FETCH_EMAILS_SUCCESS = 'email/FETCH_EMAILS_SUCCESS';
 export const FETCH_EMAILS_FAILURE = 'email/FETCH_EMAILS_FAILURE';
 
+export const FETCH_EMAIL_REQUEST = 'email/FETCH_EMAIL_REQUEST';
+export const FETCH_EMAIL_SUCCESS = 'email/FETCH_EMAIL_SUCCESS';
+export const FETCH_EMAIL_FAILURE = 'email/FETCH_EMAIL_FAILURE';
+
 const defaultState = {
   loading: false,
   loaded: false,
@@ -45,6 +49,26 @@ export default function (state = defaultState, action) {
         loaded: true,
         emails: response
       };
+    case FETCH_EMAIL_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        loaded: false
+      };
+    case FETCH_EMAIL_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        email: response[0]
+      };
+    case FETCH_EMAIL_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        loaded: false,
+        error: response
+      };
     default:
       return state;
   }
@@ -76,5 +100,12 @@ export function fetchEmailsFlow() {
     const { user } = getState();
 
     return dispatch(fetchEmailsRequest(user.user._id)); // eslint-disable-line
+  };
+}
+
+export function fetchEmailRequest(id) {
+  return {
+    types: [FETCH_EMAIL_REQUEST, FETCH_EMAIL_SUCCESS, FETCH_EMAIL_FAILURE],
+    promise: createApiRequest(`emails/${id}`)
   };
 }

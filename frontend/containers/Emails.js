@@ -28,7 +28,8 @@ export default class Emails extends Component {
         {email && email.loading && <p>emails loading...</p>}
         {email && email.emails &&
           <Flex mx={-2}>
-            {email.emails.map(e => <Box w={[1, 1 / 2]} mx={2} key={e._id}><EmailCard name={e.name} /></Box>)}
+            {email.emails.map(e =>
+              <Box w={[1, 1 / 2]} mx={2} key={e._id}><EmailCard name={e.name} id={e._id} /></Box>)}
           </Flex>
         }
       </div>

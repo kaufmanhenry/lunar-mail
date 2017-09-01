@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { colors } from './ui/Variables';
+import { Link } from 'react-router';
 
+import { colors } from './ui/Variables';
 
 const StyledEmailCard = styled.div`
   background-color: ${colors.white};
@@ -26,14 +27,16 @@ const StyledEmailCard = styled.div`
   }
 `;
 
-const EmailCard = ({ name }) => (
+const EmailCard = ({ name, id }) => (
   <StyledEmailCard>
     <h3>{name}</h3>
+    <Link to={`emails/${id}`}>View</Link>
   </StyledEmailCard>
 );
 
 EmailCard.propTypes = {
-  name: PropTypes.string
+  name: PropTypes.string,
+  id: PropTypes.string.isRequired
 };
 
 EmailCard.defaultProps = {
