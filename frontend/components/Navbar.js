@@ -24,6 +24,9 @@ const NavbarLink = styled(Link)`
   font-weight: 500;
   margin: 0 1rem;
   cursor: pointer;
+  &:last-child {
+    margin-right: 0;
+  }
 `;
 
 const Navbar = ({ logoutFlow }) => (
