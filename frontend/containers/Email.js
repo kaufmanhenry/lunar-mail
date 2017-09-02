@@ -35,6 +35,9 @@ export default class Email extends Component {
               {Moment(email.createdAt).format('MMMM D, YYYY')}
             </SubText>
           }
+          <p>
+            <b>Email body:</b> {email.body}
+          </p>
         </div>}
       </div>
     );

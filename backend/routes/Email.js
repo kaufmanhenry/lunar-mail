@@ -2,18 +2,31 @@ const { Router } = require('express');
 const co = require('co');
 const Email = require('../models/Email');
 
-const mailerConfig = require('../config/mailer');
+const { sendEmail } = require('../config/mailer');
 
 const handleRequest = require('../config/responseHandler');
 
 const { authMiddleware } = require('../config/auth');
 
-const sendEmail = (to, meta, email) =>
+const Prop = (obj, is, value) => {
+  if (typeof is === 'string') is = is.split('.');
+  if (is.length === 1 && value !== undefined) return obj[is[0]] = value;
+  else if (is.length === 0) return obj;
+  else {
+    const prop = is.shift();
+    if (value !== undefined && obj[prop] === undefined) obj[prop] = {};
+    return Prop(obj[prop], is, value);
+  }
+};
+
+const render = (str, obj) => str.replace(/\$\{(.+?)\}/g, (match, p1) => Prop(obj, p1));
+
+const renderAndSendEmail = (to, meta, email) =>
   new Promise((resolve, reject) => {
     // eslint-disable-next-line
-    const renderedBody = `<p>${eval('`' + email.body + '`')}</p>`;
+    const renderedBody = render(email.body, meta);
 
-    return mailerConfig(to, email.subject, renderedBody).then(resolve, reject);
+    return sendEmail(to, email.subject, renderedBody).then(resolve, reject);
   });
 
 const router = Router();
@@ -54,13 +67,12 @@ router.delete('/:email',
   authMiddleware,
   (req, res) => Email.remove({ _id: req.params.email }, handleRequest(res)));
 
-router.post('/send/:identifier',
-  authMiddleware,
+router.post('/send/:id',
   (req, res) =>
     co(function* sendEmailRoute() {
-      if (!req.params.identifier) {
+      if (!req.params.id) {
         return handleRequest(res)({
-          message: 'An identifier is required in order to send an email',
+          message: 'An id is required in order to send an email',
           status: 422
         });
       }
@@ -82,19 +94,20 @@ router.post('/send/:identifier',
       // Find the email with the correct identifier
       let email;
       try {
-        email = yield Email.findOne({ identifier: req.params.identifier });
+        email = yield Email.findOne({ _id: req.params.id });
       } catch (e) {
         return handleRequest(res)(e);
       }
 
-      let sentEmail;
       try {
-        sentEmail = yield sendEmail(req.body.to, req.body.meta, email);
+        yield renderAndSendEmail(req.body.to, req.body.meta, email);
       } catch (e) {
         return handleRequest(res)(e);
       }
 
-      return res.send(sentEmail);
+      return handleRequest(res)(null, {
+        message: 'Successfully sent an email'
+      });
     })
 );
 
