@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Flex, Box } from 'reflexbox';
+import Moment from 'moment';
+
+import { SubText, ActiveText } from '../components/ui/Text';
 
 import { fetchEmailRequest } from '../redux/modules/email';
 
@@ -25,7 +28,14 @@ export default class Email extends Component {
     const { email: { email } } = this.props;
     return (
       <div>
-        {email && email.name && <h2>Email Name: {email.name}</h2>}
+        {email && <div>
+          <h2>{email.name}</h2>
+          {email.createdAt &&
+            <SubText>
+              {Moment(email.createdAt).format('MMMM D, YYYY')}
+            </SubText>
+          }
+        </div>}
       </div>
     );
   }

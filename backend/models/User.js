@@ -1,6 +1,7 @@
 const Mongo = require('./index');
+const mongoose = require('mongoose');
 
-const UserModel = Mongo.model('User', {
+const UserModel = Mongo.model('User', new mongoose.Schema({
   name: {
     type: String,
     required: true
@@ -13,6 +14,8 @@ const UserModel = Mongo.model('User', {
     type: String,
     required: true
   }
-});
+}, {
+  timestamps: true
+}));
 
 module.exports = UserModel;

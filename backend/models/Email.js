@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
-const EmailModel = Mongo.model('Email', {
+const EmailModel = Mongo.model('Email', new mongoose.Schema({
   name: {
     type: String,
     required: true
@@ -21,6 +21,8 @@ const EmailModel = Mongo.model('Email', {
     ref: 'User',
     required: true
   }
-});
+}, {
+  timestamps: true
+}));
 
 module.exports = EmailModel;
