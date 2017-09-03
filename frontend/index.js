@@ -12,7 +12,7 @@ import configureStore from './redux/configureStore';
 const store = configureStore();
 
 const RootStyles = styled.div`
-  font-family: heebo, sans-serif;
+  font-family: interface, sans-serif;
   background-color: ${colors.snow};
   color: ${colors.black};
   height: 100%;

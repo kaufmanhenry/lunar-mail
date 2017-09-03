@@ -23,11 +23,13 @@ const defaultState = {
   loading: false,
   loaded: false,
   user: {},
-  token: ''
+  token: '',
+  error: {}
 };
 
 export default function (state = defaultState, action) {
-  const { response } = action;
+  const { response, error } = action;
+  console.log(response, error, action.type);
   switch (action.type) {
     case LOGIN_REQUEST:
     case SIGNUP_REQUEST:
@@ -56,7 +58,7 @@ export default function (state = defaultState, action) {
         ...state,
         loading: false,
         loaded: false,
-        error: response
+        error
       };
     case LOGOUT:
       return {

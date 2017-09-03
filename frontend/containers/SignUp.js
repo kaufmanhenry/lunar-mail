@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Flex, Box } from 'reflexbox';
 
-import { Card, Input, Button } from '../components/ui';
+import { Card, Input, Button, Label } from '../components/ui';
 
 import { signupFlow } from '../redux/modules/user';
 
@@ -37,13 +37,16 @@ export default class SignUp extends Component {
             </Box>
             <form onSubmit={this.signupSubmit}>
               <Box mb={2}>
-                <Input placeholder="Name" name="name" />
+                <Label>Name</Label>
+                <Input name="name" />
               </Box>
               <Box mb={2}>
-                <Input placeholder="Email" name="email" />
+                <Label>Email</Label>
+                <Input type="email" name="email" />
               </Box>
               <Box mb={2}>
-                <Input placeholder="Password" type="password" name="password" />
+                <Label>Password</Label>
+                <Input type="password" name="password" />
               </Box>
               <Button primary block>Sign Up</Button>
             </form>
