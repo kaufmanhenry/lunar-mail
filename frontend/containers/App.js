@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Box } from 'reflexbox';
+import { Flex, Box } from 'reflexbox';
 
 import { logoutFlow, validateToken } from '../redux/modules/user';
 
@@ -35,12 +35,14 @@ export default class App extends Component {
     return (
       <div>
         {user.user._id && // eslint-disable-line
-          <div>
-            <Navbar logoutFlow={this.props.logoutFlow} />
-            <Box py={3}>
-              <Container>{this.props.children}</Container>
-            </Box>
-          </div>
+          <Container>
+            <Flex wrap py={4}>
+              <Box w={[1, 1 / 4]}>
+                <Navbar logoutFlow={this.props.logoutFlow} />
+              </Box>
+              <Box w={[1, 3 / 4]}>{this.props.children}</Box>
+            </Flex>
+          </Container>
         }
       </div>
     );

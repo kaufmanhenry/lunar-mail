@@ -29,7 +29,6 @@ const defaultState = {
 
 export default function (state = defaultState, action) {
   const { response, error } = action;
-  console.log(response, error, action.type);
   switch (action.type) {
     case LOGIN_REQUEST:
     case SIGNUP_REQUEST:
