@@ -3,16 +3,16 @@ import { colors, fontSizes } from './Variables';
 
 export default styled.textarea`
   display: block;
-  padding: 12px 16px;
+  padding: 12px;
   background-color: ${colors.snow};
   color: ${colors.black};
   font-size: ${fontSizes[4]}px;
-  border: solid 1px ${colors.lightGray};
+  border: none;
   border-radius: 4px;
-  width: calc(100% - 34px);
+  width: calc(100% - 26px);
   resize: none;
   &:focus {
-    border-color: ${colors.blue};
+    background-color: ${colors.lightGray};
     outline: none;
   }
 `;

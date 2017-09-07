@@ -30,10 +30,10 @@ export default class NewEmail extends Component {
 
   render() {
     return (
-      <Card>
-        <Flex mx={-2}>
+      <div>
+        <h2>New Email</h2>
+        <Flex mx={-2} mt={2}>
           <Box w={[1, 1 / 2]} mx={2}>
-            <h2>New Email</h2>
             <form onSubmit={this.saveEmail}>
               <Box mb={2}>
                 <Label>Email Name</Label>
@@ -47,7 +47,7 @@ export default class NewEmail extends Component {
                 <Label>Email Body</Label>
                 <TextArea name="body" />
               </Box>
-              <Button floatRight>Save</Button>
+              <Button floatRight primary>Save</Button>
             </form>
           </Box>
           <Box w={[1, 1 / 2]} mx={2}>
@@ -59,7 +59,7 @@ export default class NewEmail extends Component {
             </Card>
           </Box>
         </Flex>
-      </Card>
+      </div>
     );
   }
 }
