@@ -54,12 +54,13 @@ router.post('/', authMiddleware, (req, res) => {
   });
 });
 
-router.put('/:email',
+router.post('/:email',
   authMiddleware,
   (req, res) =>
     Email.findOneAndUpdate(
       { _id: req.params.email },
       req.body,
+      { new: true },
       handleRequest(res)
     ));
 

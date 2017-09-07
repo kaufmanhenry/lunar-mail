@@ -4,14 +4,15 @@ import { connect } from 'react-redux';
 import { Flex, Box } from 'reflexbox';
 import Moment from 'moment';
 
-import { SubText, ActiveText } from '../components/ui/Text';
+import { Label, Input, Button, TextArea, SubText } from '../components/ui';
 
-import { fetchEmailRequest } from '../redux/modules/email';
+import { fetchEmailRequest, updateEmailRequest } from '../redux/modules/email';
 
-@connect(({ email }) => ({ email }), { fetchEmailRequest })
+@connect(({ email }) => ({ email }), { fetchEmailRequest, updateEmailRequest })
 export default class Email extends Component {
   static propTypes = {
     fetchEmailRequest: PropTypes.func.isRequired,
+    updateEmailRequest: PropTypes.func.isRequired,
     params: PropTypes.shape({
       emailId: PropTypes.string
     }).isRequired,
@@ -20,8 +21,24 @@ export default class Email extends Component {
     }).isRequired
   }
 
+  constructor() {
+    super();
+    this.saveEmail = this.saveEmail.bind(this);
+  }
+
   componentWillMount() {
     this.props.fetchEmailRequest(this.props.params.emailId);
+  }
+
+  saveEmail(e) {
+    e.preventDefault();
+    this.props.updateEmailRequest(
+      this.props.email.email._id,
+      {
+        name: e.target.name.value,
+        subject: e.target.subject.value,
+        body: e.target.body.value
+      });
   }
 
   render() {
@@ -29,15 +46,31 @@ export default class Email extends Component {
     return (
       <div>
         {email && <div>
-          <h2>{email.name}</h2>
-          {email.createdAt &&
-            <SubText>
-              {Moment(email.createdAt).format('MMMM D, YYYY')}
-            </SubText>
-          }
-          <p>
-            <b>Email body:</b> {email.body}
-          </p>
+          <Flex justify="space-between" align="center" mb={2}>
+            <h1>{email.name}</h1>
+            {email.createdAt &&
+              <SubText>
+                {Moment(email.createdAt).format('MMMM D, YYYY')}
+              </SubText>
+            }
+          </Flex>
+          <Box>
+            <form onSubmit={this.saveEmail}>
+              <Box mb={2}>
+                <Label>Email Name</Label>
+                <Input name="name" defaultValue={email.name} />
+              </Box>
+              <Box mb={2}>
+                <Label>Email Subject</Label>
+                <Input name="subject" defaultValue={email.subject} />
+              </Box>
+              <Box mb={2}>
+                <Label>Email Body</Label>
+                <TextArea name="body" defaultValue={email.body} />
+              </Box>
+              <Button floatRight primary>Save</Button>
+            </form>
+          </Box>
         </div>}
       </div>
     );

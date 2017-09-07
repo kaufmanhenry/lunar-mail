@@ -4,6 +4,10 @@ export const SAVE_EMAIL_REQUEST = 'email/SAVE_EMAIL_REQUEST';
 export const SAVE_EMAIL_SUCCESS = 'email/SAVE_EMAIL_SUCCESS';
 export const SAVE_EMAIL_FAILURE = 'email/SAVE_EMAIL_FAILURE';
 
+export const UPDATE_EMAIL_REQUEST = 'email/UPDATE_EMAIL_REQUEST';
+export const UPDATE_EMAIL_SUCCESS = 'email/UPDATE_EMAIL_SUCCESS';
+export const UPDATE_EMAIL_FAILURE = 'email/UPDATE_EMAIL_FAILURE';
+
 export const FETCH_EMAILS_REQUEST = 'email/FETCH_EMAILS_REQUEST';
 export const FETCH_EMAILS_SUCCESS = 'email/FETCH_EMAILS_SUCCESS';
 export const FETCH_EMAILS_FAILURE = 'email/FETCH_EMAILS_FAILURE';
@@ -74,6 +78,7 @@ export default function (state = defaultState, action) {
   }
 }
 
+// Save an email
 export function saveEmailRequest(name, subject, body, user) {
   return {
     types: [SAVE_EMAIL_REQUEST, SAVE_EMAIL_SUCCESS, SAVE_EMAIL_FAILURE],
@@ -88,6 +93,15 @@ export function saveEmailFlow({ name, subject, body }) {
   };
 }
 
+// Update an email
+export function updateEmailRequest(id, email) {
+  return {
+    types: [UPDATE_EMAIL_REQUEST, UPDATE_EMAIL_SUCCESS, UPDATE_EMAIL_FAILURE],
+    promise: createApiRequest(`emails/${id}`, 'POST', email)
+  };
+}
+
+// Fetch all emails
 export function fetchEmailsRequest(userId) {
   return {
     types: [FETCH_EMAILS_REQUEST, FETCH_EMAILS_SUCCESS, FETCH_EMAILS_FAILURE],
@@ -103,6 +117,7 @@ export function fetchEmailsFlow() {
   };
 }
 
+// Fetch a single email
 export function fetchEmailRequest(id) {
   return {
     types: [FETCH_EMAIL_REQUEST, FETCH_EMAIL_SUCCESS, FETCH_EMAIL_FAILURE],

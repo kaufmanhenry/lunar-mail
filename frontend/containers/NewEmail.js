@@ -31,7 +31,7 @@ export default class NewEmail extends Component {
   render() {
     return (
       <div>
-        <h2>New Email</h2>
+        <h1>New Email</h1>
         <Flex mx={-2} mt={2}>
           <Box w={[1, 1 / 2]} mx={2}>
             <form onSubmit={this.saveEmail}>

@@ -22,6 +22,9 @@ const RootStyles = styled.div`
   p {
     line-height: 1.6rem;
   }
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 500;
+  }
 `;
 
 render((
