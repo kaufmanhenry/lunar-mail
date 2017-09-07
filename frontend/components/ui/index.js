@@ -3,6 +3,7 @@ export { default as Card } from './Card';
 export { default as Container } from './Container';
 export { default as Input } from './Input';
 export { default as Label } from './Label';
+export { default as Table } from './Table';
 export { default as TextArea } from './TextArea';
 export { SubText } from './Text';
 export { ActiveText } from './Text';

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Flex, Box } from 'reflexbox';
+import { Link } from 'react-router';
+import { Box } from 'reflexbox';
+
+import { Table } from '../components/ui';
 
 import { fetchEmailsFlow } from '../redux/modules/email';
-
-import EmailCard from '../components/EmailCard';
 
 @connect(({ email }) => ({ email }), { fetchEmailsFlow })
 export default class Emails extends Component {
@@ -27,10 +28,26 @@ export default class Emails extends Component {
         <h1>Emails</h1>
         {email && email.loading && <p>emails loading...</p>}
         {email && email.emails &&
-          <Flex mx={-2}>
-            {email.emails.map(e =>
-              <Box w={[1, 1 / 2]} mx={2} key={e._id}><EmailCard name={e.name} id={e._id} /></Box>)}
-          </Flex>
+          <Box py={2}>
+            <Table>
+              <thead>
+                <tr>
+                  <th>Email Name</th>
+                  <th>View</th>
+                </tr>
+              </thead>
+              <tbody>
+                {email.emails.map(e => (
+                  <tr>
+                    <td>{e.name}</td>
+                    <td>
+                      <Link to={`emails/${e._id}`}>View</Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </Box>
         }
       </div>
     );
