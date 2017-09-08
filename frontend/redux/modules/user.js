@@ -17,6 +17,10 @@ export const VALIDATE_TOKEN_REQUEST = 'user/VALIDATE_TOKEN_REQUEST';
 export const VALIDATE_TOKEN_SUCCESS = 'user/VALIDATE_TOKEN_SUCCESS';
 export const VALIDATE_TOKEN_FAILURE = 'user/VALIDATE_TOKEN_FAILURE';
 
+export const UPDATE_USER_REQUEST = 'user/UPDATE_USER_REQUEST';
+export const UPDATE_USER_SUCCESS = 'user/UPDATE_USER_SUCCESS';
+export const UPDATE_USER_FAILURE = 'user/UPDATE_USER_FAILURE';
+
 export const LOGOUT = 'user/LOGOUT';
 
 const defaultState = {
@@ -53,6 +57,7 @@ export default function (state = defaultState, action) {
       };
     case LOGIN_FAILURE:
     case SIGNUP_FAILURE:
+    case UPDATE_USER_FAILURE:
       return {
         ...state,
         loading: false,
@@ -71,6 +76,19 @@ export default function (state = defaultState, action) {
         loaded: true,
         user: response.user,
         token: response.token
+      };
+    case UPDATE_USER_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        loaded: false
+      };
+    case UPDATE_USER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        user: response
       };
     default:
       return state;
@@ -128,5 +146,12 @@ export function validateToken() {
   return {
     types: [VALIDATE_TOKEN_REQUEST, VALIDATE_TOKEN_SUCCESS, VALIDATE_TOKEN_FAILURE],
     promise: createApiRequest('auth/validate', 'POST', { token: localStorage.getItem(TOKEN_NAME) })
+  };
+}
+
+export function updateUser(id, user) {
+  return {
+    types: [UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_FAILURE],
+    promise: createApiRequest(`users/${id}`, 'POST', user)
   };
 }

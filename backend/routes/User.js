@@ -35,10 +35,11 @@ router.post('/', (req, res) =>
   }, err => handleRequest(res)(err))
 );
 
-router.put('/:user', authMiddleware, (req, res) =>
+router.post('/:user', authMiddleware, (req, res) =>
   User.findOneAndUpdate(
     { _id: req.params.user },
     req.body,
+    { new: true },
     handleRequest(res)
   )
 );

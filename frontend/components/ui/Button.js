@@ -10,5 +10,5 @@ export default styled.button`
   border-radius: 4px;
   width: ${props => props.block ? '100%' : 'auto'};
   font-weight: 700;
-  float: ${props => props.floatRight ? 'right' : 'none'}
+  float: ${props => props.floatRight ? 'right' : 'none'};
 `;
