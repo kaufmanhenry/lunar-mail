@@ -5,19 +5,25 @@ import { connect } from 'react-redux';
 import { Label, Input, Button, Clearfix } from '../components/ui';
 
 import { updateUser } from '../redux/modules/user';
+import { createAccessCodeRequest } from '../redux/modules/accessCode';
 
-@connect(({ user }) => ({ user }), { updateUser })
+@connect(({ user, accessCode }) => ({ user, accessCode }), { updateUser, createAccessCodeRequest })
 export default class Settings extends Component {
   static propTypes = {
     user: PropTypes.shape({
       user: PropTypes.object
     }).isRequired,
-    updateUser: PropTypes.func.isRequired
+    accessCode: PropTypes.shape({
+      accessCode: PropTypes.object
+    }).isRequired,
+    updateUser: PropTypes.func.isRequired,
+    createAccessCodeRequest: PropTypes.func.isRequired
   }
 
   constructor(props) {
     super(props);
     this.updateAccount = this.updateAccount.bind(this);
+    this.generateAccessCode = this.generateAccessCode.bind(this);
   }
 
   updateAccount(e) {
@@ -28,8 +34,12 @@ export default class Settings extends Component {
     });
   }
 
+  generateAccessCode() {
+    this.props.createAccessCodeRequest({ user: this.props.user.user._id });
+  }
+
   render() {
-    const { user: { user } } = this.props;
+    const { user: { user }, accessCode: { accessCode } } = this.props;
     return (
       <div>
         <Box mb={3}>
@@ -61,6 +71,14 @@ export default class Settings extends Component {
           </Box>
           <Box mb={2}>
             <p>Access codes are used as an authentication method when sending emails. You can enable and disable them here.</p>
+          </Box>
+          <Box>
+            <Button primary onClick={this.generateAccessCode}>Generate Access Code</Button>
+            {accessCode &&
+              <Box mt={1}>
+                <p><b>Access Code:</b> {accessCode.accessCode}</p>
+              </Box>
+            }
           </Box>
         </Box>
       </div>
