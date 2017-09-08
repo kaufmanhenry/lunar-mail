@@ -52,6 +52,19 @@ const comparePassword = (password, hash) =>
     });
   });
 
+const generateToken = body =>
+  new Promise((resolve, reject) => {
+    if (!body) {
+      return reject({
+        message: 'A body is required in order to encode'
+      });
+    }
+    return jwt.sign(body, SECRET, {}, (err, token) => {
+      if (err) return reject(err);
+      return resolve(token);
+    });
+  });
+
 // Encodes a user into a token
 const encodeUser = user =>
   new Promise((resolve, reject) => {
@@ -60,10 +73,13 @@ const encodeUser = user =>
         message: 'A user is required in order to encode'
       });
     }
-    return jwt.sign(user, SECRET, {}, (err, token) => {
-      if (err) return reject(err);
-      return resolve(token);
-    });
+    return generateToken(user).then(resolve, reject);
+  });
+
+const generateAccessCode = user =>
+  new Promise((resolve, reject) => {
+    const c = new Date();
+    return generateToken({ currentTime: c, user }).then(resolve, reject);
   });
 
 // Middleware to validate a token
@@ -86,5 +102,6 @@ module.exports = {
   decodeToken,
   encodeUser,
   hashPassword,
-  comparePassword
+  comparePassword,
+  generateAccessCode
 };
