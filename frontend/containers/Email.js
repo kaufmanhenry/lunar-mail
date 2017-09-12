@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Flex, Box } from 'reflexbox';
 import Moment from 'moment';
 
-import { Label, Input, Button, TextArea, SubText } from '../components/ui';
+import { Label, Input, Button, TextArea, SubText, Clearfix } from '../components/ui';
 
 import { fetchEmailRequest, updateEmailRequest } from '../redux/modules/email';
 
@@ -54,7 +54,7 @@ export default class Email extends Component {
               </SubText>
             }
           </Flex>
-          <Box>
+          <Box mb={2}>
             <form onSubmit={this.saveEmail}>
               <Box mb={2}>
                 <Label>Email Name</Label>
@@ -70,6 +70,14 @@ export default class Email extends Component {
               </Box>
               <Button floatRight primary>Save</Button>
             </form>
+          </Box>
+          <Clearfix />
+          <Box>
+            <Label>Email Endpoint</Label>
+            <Input
+              value={`http://localhost:3000/api/emails/send/${email._id}`}
+              disabled
+            />
           </Box>
         </div>}
       </div>
