@@ -14,7 +14,7 @@ const decodeToken = token =>
     }
     return jwt.verify(token, SECRET, (err, decoded) => {
       if (err) return reject(err);
-      if (decoded._doc) return resolve(decoded._doc); // eslint-disable-line
+      if (decoded._doc || decoded.user) return resolve(decoded._doc || decoded); // eslint-disable-line
       return reject({
         message: 'No user found in the token'
       });
@@ -82,6 +82,22 @@ const generateAccessCode = user =>
     return generateToken({ currentTime: c, user }).then(resolve, reject);
   });
 
+const validateAccessCode = accessCode =>
+  new Promise((resolve, reject) =>
+    decodeToken(accessCode).then((token) => {
+      if (!token.currentTime) {
+        return reject({
+          message: 'The token must have a time'
+        });
+      }
+      if (new Date(token.currentTime) > new Date()) {
+        return reject({
+          message: 'The time of the token must be less than the current time'
+        });
+      }
+      return resolve(token);
+    }, reject));
+
 // Middleware to validate a token
 const authMiddleware = (req, res, next) => {
   const token = req.headers.lunarmailtoken;
@@ -103,5 +119,6 @@ module.exports = {
   encodeUser,
   hashPassword,
   comparePassword,
-  generateAccessCode
+  generateAccessCode,
+  validateAccessCode
 };

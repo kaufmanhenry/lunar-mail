@@ -38,7 +38,7 @@ export default class Emails extends Component {
               </thead>
               <tbody>
                 {email.emails.map(e => (
-                  <tr>
+                  <tr key={e._id}>
                     <td>{e.name}</td>
                     <td>
                       <Link to={`emails/${e._id}`}>View</Link>

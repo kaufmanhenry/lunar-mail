@@ -3,7 +3,7 @@ const co = require('co');
 
 const User = require('../models/User');
 
-const { authMiddleware, generateAccessCode  } = require('../config/auth');
+const { authMiddleware, generateAccessCode } = require('../config/auth');
 const handleRequest = require('../config/responseHandler');
 
 const router = Router();

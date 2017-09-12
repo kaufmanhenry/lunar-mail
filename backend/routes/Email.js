@@ -6,7 +6,7 @@ const { sendEmail } = require('../config/mailer');
 
 const handleRequest = require('../config/responseHandler');
 
-const { authMiddleware } = require('../config/auth');
+const { authMiddleware, validateAccessCode } = require('../config/auth');
 
 const Prop = (obj, is, value) => {
   if (typeof is === 'string') is = is.split('.');
@@ -89,6 +89,20 @@ router.post('/send/:id',
         return handleRequest(res)({
           message: 'Meta data is required in order to send an email.',
           status: 422
+        });
+      }
+
+      let validAccessCode;
+      try {
+        validAccessCode = yield validateAccessCode(req.headers.accesstoken);
+      } catch (e) {
+        return handleRequest(res)(e);
+      }
+
+      if (!validAccessCode) {
+        return handleRequest(res)({
+          status: 403,
+          message: 'Access token was not valid'
         });
       }
 
