@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Flex, Box } from 'reflexbox';
 import Moment from 'moment';
 
-import { Label, Input, Button, TextArea, SubText, Clearfix } from '../components/ui';
+import { Label, Input, Button, TextArea, SubText, Clearfix, Table } from '../components/ui';
 
 import { fetchEmailRequest, updateEmailRequest } from '../redux/modules/email';
 
@@ -42,11 +42,12 @@ export default class Email extends Component {
   }
 
   render() {
-    const { email: { email } } = this.props;
+    console.log(this.props.email);
+    const { email: { email, stats } } = this.props;
     return (
       <div>
         {email && <div>
-          <Flex justify="space-between" align="center" mb={2}>
+          <Flex justify="space-between" align="center" mb={3}>
             <h1>{email.name}</h1>
             {email.createdAt &&
               <SubText>
@@ -54,7 +55,10 @@ export default class Email extends Component {
               </SubText>
             }
           </Flex>
-          <Box mb={2}>
+          <Box mb={3}>
+            <Box mb={2}>
+              <h3>Edit Email</h3>
+            </Box>
             <form onSubmit={this.saveEmail}>
               <Box mb={2}>
                 <Label>Email Name</Label>
@@ -69,15 +73,45 @@ export default class Email extends Component {
                 <TextArea name="body" defaultValue={email.body} />
               </Box>
               <Button floatRight primary>Save</Button>
+              <Clearfix />
             </form>
           </Box>
-          <Clearfix />
+          <Box mb={3}>
+            <Box mb={2}>
+              <h3>API</h3>
+            </Box>
+            <div>
+              <Label>Email Endpoint</Label>
+              <Input
+                value={`http://localhost:3000/api/emails/send/${email._id}`}
+                disabled
+              />
+            </div>
+          </Box>
           <Box>
-            <Label>Email Endpoint</Label>
-            <Input
-              value={`http://localhost:3000/api/emails/send/${email._id}`}
-              disabled
-            />
+            <Box mb={2}>
+              <h3>Statistics</h3>
+            </Box>
+            <div>
+              <Table>
+                <thead>
+                  <tr>
+                    <th>To</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {stats.map(s => (
+                    <tr key={s._id}>
+                      <td>{s.to}</td>
+                      <td>
+                        {Moment(s.createdAt).format('MMMM D, YYYY')}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </div>
           </Box>
         </div>}
       </div>

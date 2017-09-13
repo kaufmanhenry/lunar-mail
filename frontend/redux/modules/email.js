@@ -64,7 +64,8 @@ export default function (state = defaultState, action) {
         ...state,
         loading: false,
         loaded: true,
-        email: response[0]
+        email: response.email,
+        stats: response.stats
       };
     case FETCH_EMAIL_FAILURE:
       return {

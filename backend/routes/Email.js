@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const co = require('co');
 const Email = require('../models/Email');
+const Statistic = require('../models/Statistic');
 
 const { sendEmail } = require('../config/mailer');
 
@@ -23,17 +24,49 @@ const render = (str, obj) => str.replace(/\$\{(.+?)\}/g, (match, p1) => Prop(obj
 
 const renderAndSendEmail = (to, meta, email) =>
   new Promise((resolve, reject) => {
-    // eslint-disable-next-line
     const renderedBody = render(email.body, meta);
 
-    return sendEmail(to, email.subject, renderedBody).then(resolve, reject);
+    return sendEmail(to, email.subject, renderedBody).then((response) => {
+      // Create a new statistic to save (an interaction)
+      const newStat = new Statistic({ email: email._id, to }); // eslint-disable-line
+
+      // Save the interaction
+      newStat.save((err) => {
+        if (err) return reject(err);
+
+        return resolve(response);
+      });
+    }, reject);
   });
 
 const router = Router();
 
 router.get('/:email',
   authMiddleware,
-  (req, res) => Email.find({ _id: req.params.email }, handleRequest(res)));
+  (req, res) =>
+    co(function* fetchEmail() {
+      // Find the email corresponding to the parameter
+      let email;
+      try {
+        email = yield Email.findOne({ _id: req.params.email });
+      } catch (e) {
+        return handleRequest(res)(e);
+      }
+
+      // Find all stats corresponding to the parameter
+      let stats;
+      try {
+        stats = yield Statistic.find({ email: req.params.email });
+      } catch (e) {
+        return handleRequest(res)(e);
+      }
+
+      // Respond with the email and stats
+      return handleRequest(res)(null, {
+        email,
+        stats
+      });
+    }));
 
 router.post('/', authMiddleware, (req, res) => {
   // Create an object of the email to save
