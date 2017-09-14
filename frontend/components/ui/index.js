@@ -8,3 +8,4 @@ export { default as Table } from './Table';
 export { default as TextArea } from './TextArea';
 export { SubText } from './Text';
 export { ActiveText } from './Text';
+export { default as Link } from './StyledLink';

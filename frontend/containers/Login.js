@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Flex, Box } from 'reflexbox';
 
-import { Card, Input, Button, Label, SubText } from '../components/ui';
+import { Card, Input, Button, Label, SubText, Link } from '../components/ui';
 
 import { loginFlow } from '../redux/modules/user';
 
@@ -34,7 +34,7 @@ export default class Login extends Component {
     return (
       <Flex align="center" justify="center" py={3}>
         <Box w={320}>
-          <Card>
+          <Card bordered>
             <Box mb={2}>
               <h1>Login</h1>
             </Box>
@@ -48,6 +48,9 @@ export default class Login extends Component {
                 <Input type="password" name="password" />
               </Box>
               <Button primary block>Login</Button>
+              <Flex mt={2} justify="center">
+                <Link to="/signup">Sign up here</Link>
+              </Flex>
             </form>
             {error &&
               <Flex pt={2} justify="center">
