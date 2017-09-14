@@ -1,3 +1,5 @@
+import { hashHistory } from 'react-router';
+
 import createApiRequest from '../../utils/createApiRequest';
 
 export const SAVE_EMAIL_REQUEST = 'email/SAVE_EMAIL_REQUEST';
@@ -90,7 +92,8 @@ export function saveEmailRequest(name, subject, body, user) {
 export function saveEmailFlow({ name, subject, body }) {
   return (dispatch, getState) => {
     const { user } = getState();
-    return dispatch(saveEmailRequest(name, subject, body, user.user));
+    return dispatch(saveEmailRequest(name, subject, body, user.user))
+      .then(response => hashHistory.push(`emails/${response.response._id}`));
   };
 }
 

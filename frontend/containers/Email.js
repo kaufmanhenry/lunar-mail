@@ -42,7 +42,6 @@ export default class Email extends Component {
   }
 
   render() {
-    console.log(this.props.email);
     const { email: { email, stats } } = this.props;
     return (
       <div>
@@ -105,7 +104,7 @@ export default class Email extends Component {
                     <tr key={s._id}>
                       <td>{s.to}</td>
                       <td>
-                        {Moment(s.createdAt).format('MMMM D, YYYY')}
+                        {Moment(s.createdAt).format('MM/D/YYYY, h:mm a')}
                       </td>
                     </tr>
                   ))}
